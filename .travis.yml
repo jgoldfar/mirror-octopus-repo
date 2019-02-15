@@ -5,3 +5,4 @@ before_script:
 
 script:
   - make mirror
+  - make rebase-and-push BRANCH=enable-travis-ci
