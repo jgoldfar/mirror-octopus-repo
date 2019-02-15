@@ -11,7 +11,7 @@ addDownstream: ${destDir}/.git
 	cd $(dir $<) && git remote add downstream ${downstreamRepo}
 
 pushDownstream: ${destDir}/.git
-	cd $(dir $<) && git push --porcelain --progress --force-with-lease --recurse-submodules=on-demand downstream refs/remotes/origin/*:refs/heads/*
+	cd $(dir $<) && git push --porcelain --progress --verbose --recurse-submodules=on-demand downstream refs/remotes/origin/master:refs/heads/master
 
 mirror: cloneOrigin addDownstream pushDownstream
 
