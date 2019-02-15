@@ -1,0 +1,7 @@
+language: generic
+
+before_script:
+  - make install-ssh
+
+script:
+  - make mirror
