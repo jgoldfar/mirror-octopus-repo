@@ -2,20 +2,30 @@ originRepo:=https://git.code.sf.net/p/maxima/code
 downstreamRepo:=git@github.com:jgoldfar/maxima-clone.git
 destDir:=./maxima
 
-cloneOrigin: ${destDir}/.git
-
 ${destDir}/.git:
-	git clone --progress --verbose ${originRepo} $(dir $@)
+	git clone --progress --verbose ${originRepo} ${destDir}
 
-addDownstream: ${destDir}/.git
-	cd $(dir $<) && git remote add downstream ${downstreamRepo}
+# Clone, add the downstream (target) remote, and push refs
+mirror: ${destDir}/.git
+	cd $(dir $<) \
+	&& git remote add downstream ${downstreamRepo} \
+	&& git push --porcelain --progress --verbose --recurse-submodules=on-demand downstream refs/remotes/origin/master:refs/heads/master
 
-pushDownstream: ${destDir}/.git
-	cd $(dir $<) && git push --porcelain --progress --verbose --recurse-submodules=on-demand downstream refs/remotes/origin/master:refs/heads/master
 
-mirror: cloneOrigin addDownstream pushDownstream
+BRANCH?=
+ifneq (${BRANCH},)
+# Fetch the branch from the downstream remote, rebase it
+# onto origin/master, and push it back downstream.
+rebase-and-push: ${destDir}/.git
+	cd $(dir $<) \
+	&& git fetch downstream ${BRANCH} \
+	&& git checkout --track downstream/${BRANCH} \
+	&& git rebase origin/master downstream/${BRANCH} \
+	&& git push --progress --verbose --recurse-submodules=on-demand --force downstream ${BRANCH}
+endif
 
-# Ths Openssl keys referenced below are only available in the Travis environment.
+
+# The Openssl keys referenced below are only available in the Travis environment.
 # If you have push access to the clone, the installation step is unnecessary.
 install-ssh-key:
 	mkdir -p ${HOME}/.ssh
