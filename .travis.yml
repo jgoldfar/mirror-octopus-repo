@@ -1,4 +1,6 @@
-language: generic
+language: minimal
+
+dist: xenial
 
 before_script:
   - make install-ssh
