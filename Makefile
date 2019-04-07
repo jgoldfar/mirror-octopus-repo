@@ -1,6 +1,6 @@
-originRepo:=https://git.code.sf.net/p/maxima/code
-downstreamRepo:=git@github.com:jgoldfar/maxima-clone.git
-destDir:=./maxima
+originRepo:=https://gitlab.com/octopus-code/octopus.git
+downstreamRepo:=git@github.com:jgoldfar/octopus-clone.git
+destDir:=./octopus
 
 ${destDir}/.git:
 	git clone --progress --verbose ${originRepo} ${destDir}
@@ -20,7 +20,7 @@ rebase-and-push: ${destDir}/.git
 	cd $(dir $<) \
 	&& git fetch downstream ${BRANCH} \
 	&& git checkout --track downstream/${BRANCH} \
-	&& git rebase origin/master downstream/${BRANCH} \
+	&& git rebase origin/develop downstream/${BRANCH} \
 	&& git push --progress --verbose --recurse-submodules=on-demand --force downstream ${BRANCH}
 endif
 
@@ -31,7 +31,8 @@ install-ssh-key:
 	mkdir -p ${HOME}/.ssh
 	chmod 0700 ${HOME}/.ssh
 	ssh-keyscan github.com > ${HOME}/.ssh/known_hosts
-	openssl aes-256-cbc -K ${encrypted_75a6d6907a36_key} -iv ${encrypted_75a6d6907a36_iv} -in id_rsa.enc -out ${HOME}/.ssh/id_rsa -d
+	ssh-keyscan gitlab.com >> ${HOME}/.ssh/known_hosts
+	openssl aes-256-cbc -K ${encrypted_beb8e67d5782_key} -iv ${encrypted_beb8e67d5782_iv} -in id_rsa.enc -out ${HOME}/.ssh/id_rsa -d
 	chmod 0600 ${HOME}/.ssh/id_rsa
 
 
@@ -43,3 +44,11 @@ install-ssh-config:
 	echo "  IdentityFile ${HOME}/.ssh/id_rsa" >> ${HOME}/.ssh/config
 
 install-ssh: install-ssh-key install-ssh-config
+
+build-image: Dockerfile .dockerignore ${destDir}/.git
+	mv Dockerfile ${destDir}
+	mv .dockerignore ${destDir}
+	cd ${destDir} && \
+		docker build -t jgoldfar/octopus:latest . && \
+		docker push jgoldfar/octopus:latest
+		

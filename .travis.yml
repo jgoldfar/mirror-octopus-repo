@@ -7,4 +7,6 @@ before_script:
 
 script:
   - make mirror
-  - make rebase-and-push BRANCH=enable-travis-ci
+  - make rebase-and-push BRANCH=enable-ci
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - make build-image

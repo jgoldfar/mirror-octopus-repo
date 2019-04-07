@@ -1,9 +1,9 @@
-# Maxima Mirror Auto-Updater
+# Octopus Mirror Auto-Updater
 
-[![Build Status](https://travis-ci.org/jgoldfar/Mirror-Maxima-Repo.svg?branch=master)](https://travis-ci.org/jgoldfar/Mirror-Maxima-Repo)
+[![Build Status](https://travis-ci.org/jgoldfar/mirror-octopus-repo.svg?branch=master)](https://travis-ci.org/jgoldfar/mirror-octopus-repo)
 
 I created this repository to see how difficult it would be to set up an automated git mirror; turns out, this isn't too tricky at all!
-This repository mirrors the upstream [Maxima Sourceforge Repository](http://maxima.sourceforge.net/) to a [github clone](https://github.com/jgoldfar/maxima-clone); to avoid having to deal with hosting, I simply use Travis to execute those instructions.
+This repository mirrors the upstream [Octopus Gitlab Repository](https://gitlab.com/octopus-code/octopus) to a [github clone](https://github.com/jgoldfar/octopus-clone); to avoid having to deal with hosting, I simply use Travis to execute those instructions.
 To do that, we'll need push access to my clone to be granted to Travis.
 
 1) Generate a new key (easier to revoke if compromised)
