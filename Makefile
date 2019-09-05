@@ -45,10 +45,23 @@ install-ssh-config:
 
 install-ssh: install-ssh-key install-ssh-config
 
+# Docker image build instructions
+DOCKER_USERNAME:=jgoldfar
+DOCKER_REPO_BASE:=octopus
 build-image: Dockerfile .dockerignore ${destDir}/.git
 	mv Dockerfile ${destDir}
 	mv .dockerignore ${destDir}
 	cd ${destDir} && \
-		docker build -t jgoldfar/octopus:latest . && \
-		docker push jgoldfar/octopus:latest
-		
+		docker build -t ${DOCKER_USERNAME}/${DOCKER_REPO_BASE}:latest . && \
+		docker push ${DOCKER_USERNAME}/${DOCKER_REPO_BASE}:latest
+
+run-shell:
+	docker run \
+       --rm \
+       --tty \
+       --interactive \
+       --name octopus \
+       --workdir=/data \
+       --volume=${PWD}:/data \
+       ${DOCKER_USERNAME}/${DOCKER_REPO_BASE}:latest \
+       bash
