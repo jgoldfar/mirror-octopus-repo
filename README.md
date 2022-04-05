@@ -1,10 +1,10 @@
 # Octopus Mirror Auto-Updater
 
-[![Build Status](https://travis-ci.org/jgoldfar/mirror-octopus-repo.svg?branch=master)](https://travis-ci.org/jgoldfar/mirror-octopus-repo)
+The functionality in this repository is deprecated in favor of [Vendor](https://github.com/TransitiveDependencyDownstreams/Vendored), which does not rely on TravisCI
 
 I created this repository to see how difficult it would be to set up an automated git mirror; turns out, this isn't too tricky at all!
-This repository mirrors the upstream [Octopus Gitlab Repository](https://gitlab.com/octopus-code/octopus) to a [github clone](https://github.com/jgoldfar/octopus-clone); to avoid having to deal with hosting, I simply use Travis to execute those instructions.
-To do that, we'll need push access to my clone to be granted to Travis.
+This repository mirrors the upstream [Octopus Gitlab Repository](https://gitlab.com/octopus-code/octopus) to a [github clone](https://github.com/jgoldfar/octopus-clone) (moved to Gitlab); to avoid having to deal with hosting, I simply use Travis to execute those instructions.
+To do that, we'll need push access to the clone to be granted to Travis.
 
 1) Generate a new key (easier to revoke if compromised)
 
